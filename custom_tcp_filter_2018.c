@@ -2,9 +2,9 @@
 //  https://github.com/MisterChangRay
 //
 //  Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
-//  
-//  This Code Test Pass Of Centos8
-//
+// 
+//  This Code Test Pass Of Ubantu
+// 
 //***************************************************************
 
 #include <linux/netfilter.h>
@@ -25,17 +25,17 @@
 static unsigned char option_tm[LENGTH_OF_OPTION] = {0xAE, LENGTH_OF_OPTION, 0xF1, 0xF2};
 static char my_buf[64];
 
-
 //user defined function for adding tcp option
-static unsigned int hook_out(
-	void *priv,
-	struct sk_buff *skb,
-	const struct nf_hook_state *state)
+unsigned int hook_out(unsigned int hooknum,
+		struct sk_buff *skb,
+		const struct net_device *in,
+		const struct net_device *out,
+		int (*okfn)(struct sk_buff *))
 {
 	struct 	iphdr           *iph    ;
 	struct 	tcphdr          *tcph   ;
 	struct  net_device		*dev    ;
-    	int                     hdr_len ;
+    int                     hdr_len ;
 
 	iph     = ip_hdr(skb);
 	tcph    = (struct tcphdr *) skb_transport_header(skb);
@@ -93,6 +93,8 @@ static unsigned int hook_out(
 	        skb->ip_summed = CHECKSUM_UNNECESSARY;  
           
         }
+
+	   
     }
     else { printk(KERN_INFO"head room is not enough\n" ); }
 	/* modify the packet's src IP */
@@ -102,17 +104,17 @@ static unsigned int hook_out(
 
 
 //user defined function for adding tcp option
-static unsigned int hook_in(
-	void *priv,
-	struct sk_buff *skb,
-	const struct nf_hook_state *state)
+unsigned int hook_in(unsigned int hooknum,
+		struct sk_buff *skb,
+		const struct net_device *in,
+		const struct net_device *out,
+		int (*okfn)(struct sk_buff *))
 {
-
 	struct 	iphdr           *iph    ;
 	struct 	tcphdr          *tcph   ;
-	unsigned char           *d      ;
-	unsigned char           *d2     ;
-	int                     i       ;
+    unsigned char           *d      ;
+    unsigned char           *d2     ;
+    int                     i       ;
 
 	iph     = ip_hdr(skb);
 	tcph    = (struct tcphdr *) skb_transport_header(skb);
@@ -128,7 +130,7 @@ static unsigned int hook_in(
 	 	//ipv4 and tcp packet
 		if( skb->data[0]==0x45 && iph->protocol==0x06 ) {
 			// set d of tcp header 
-			d = (unsigned char *)tcph;
+			d = tcph;
 			// offset address to header tail
 			d = d + (tcph->doff * 4);
 
@@ -147,6 +149,7 @@ static unsigned int hook_in(
 	return NF_ACCEPT;
 }
 
+
 /* A netfilter instance to use */
 static struct nf_hook_ops nfho_in[] __read_mostly = {
 	{
@@ -155,6 +158,7 @@ static struct nf_hook_ops nfho_in[] __read_mostly = {
 		.hooknum = NF_INET_PRE_ROUTING,
 		//process packet after routing process
 		.priority = NF_IP_PRI_FIRST,
+		.owner = THIS_MODULE
 	}
 	,
 	{
@@ -163,33 +167,22 @@ static struct nf_hook_ops nfho_in[] __read_mostly = {
 		//process packet after routing process
 		.hooknum = NF_INET_POST_ROUTING,
 		.priority = NF_IP_PRI_FIRST,
+		.owner = THIS_MODULE
 	}
 };
 
 static int __init sknf_init(void)
 {
-	struct net *net;
-
-	for_each_net(net)
-	{
-		if (nf_register_net_hooks(net, nfho_in,  ARRAY_SIZE(nfho_in))) {
-			printk(KERN_ERR"nf_register_net_hooks() failed\n");
-			return -1;
-		}
+	if (nf_register_hooks(nfho_in,  ARRAY_SIZE(nfho_in))) {
+		printk(KERN_ERR"nf_register_hook() failed\n");
+		return -1;
 	}
-
 	return 0;
 }
 
 static void __exit sknf_exit(void)
 {
-	struct net *net;
-
-	for_each_net(net)
-	{
-		nf_unregister_net_hooks(net, nfho_in,  ARRAY_SIZE(nfho_in));
-	}
-
+	nf_unregister_hooks(nfho_in,  ARRAY_SIZE(nfho_in));
 }
 
 module_init(sknf_init);
