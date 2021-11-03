@@ -35,7 +35,18 @@ Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
 	2. 利用自定义字节在握手阶段断开链接
 	3. 内网的网络安全
 
-
+### 5. 其他
+	- 下载`custom_tcp_filter.ko`文件
+	- 使用 `sudo insmod custom_tcp_filter.ko` 命令进行安装
+		-  `sudo insmod custom_tcp_filter.ko port=3306` 只对3306端口进行流入过滤,流出封装
+		-  `sudo insmod custom_tcp_filter.ko port=3306,3309` 对3306-3309端口进行流入过滤,流出封装, 支持区间
+		-  `sudo insmod custom_tcp_filter.ko inPort=3306,3308` 对3306,3308端口流入数据包进行过滤,不支持区间
+		-  `sudo insmod custom_tcp_filter.ko outPort=3306,3323` 对3306,3323端口流出数据包进行封装,不支持区间
+	- 使用 `sudo rmmod custom_tcp_filter` 命令进行卸载
+	- 安装完成后通过dmesg 查看启动日志, 如发现`Custom tcp filter init successed`类似日志即启动成功
+	- 内核应用可能导致系统蓝屏, 请注意系统版或修改后在使用。建议优先在测试环境测试完成后再应用到线上。
 
 V1.0.1
 - 升级hook方式
+- 新增配置,可指定端口
+- 可以配置流入流出端口
