@@ -5,7 +5,10 @@ Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
 公司做物联网项目, 后台采用netty开发,端口暴露使之容易被扫描攻击。 故实现自定义TCP头, 这样可以在握手阶段就丢弃数据包.达到提高攻击门槛的目的。
 此项目在一下系统中测试通过：
 
-1. Ubuntu 14.04.1 LTS (2018年测试)
+1. Ubuntu 9.3.0-10ubuntu2 (2021年测试)
+	- 内核版本 Linux version 5.4.0-42-generic
+	- iptables v1.8.4 (legacy)
+	- gcc version 9.3.0 (Ubuntu 9.3.0-10ubuntu2)
 3. CentOS Linux release 8.2.2004 (Core) (2021年测试)
 	- 内核版本4.18.0-193.el8.x86_64
 	- iptables v1.8.4 (nf_tables)
