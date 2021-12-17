@@ -1,5 +1,11 @@
 # custom-tcp-filter
+通过linux netfilter 扩展得 TCP自定义封包过滤器。
 Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
+
+[![GitHub (pre-)release](https://img.shields.io/github/release/misterchangray/custom-tcp-filter/all.svg)](https://github.com/misterchangray/custom-tcp-filter) 
+[![GitHub issues](https://img.shields.io/github/issues/misterchangray/custom-tcp-filter.svg)](https://github.com/misterchangray/custom-tcp-filter/issues) 
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/misterchangray/custom-tcp-filter.svg)](https://github.com/misterchangray/custom-tcp-filter/issues?q=is%3Aissue+is%3Aclosed) 
+[![GitHub](https://img.shields.io/github/license/misterchangray/custom-tcp-filter.svg)](./LICENSE)
 
 ### 1.项目由来
 公司做物联网项目, 后台采用netty开发,端口暴露使之容易被扫描攻击。 故实现自定义TCP头, 这样可以在握手阶段就丢弃数据包.达到提高攻击门槛的目的。
