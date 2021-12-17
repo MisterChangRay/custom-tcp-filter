@@ -1,6 +1,8 @@
 # custom-tcp-filter
-通过linux netfilter 扩展得 TCP自定义封包过滤器。
+
 Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
+
+通过linux netfilter 扩展的 TCP自定义封包过滤器。
 
 [![GitHub (pre-)release](https://img.shields.io/github/release/misterchangray/custom-tcp-filter/all.svg)](https://github.com/misterchangray/custom-tcp-filter) 
 [![GitHub issues](https://img.shields.io/github/issues/misterchangray/custom-tcp-filter.svg)](https://github.com/misterchangray/custom-tcp-filter/issues) 
