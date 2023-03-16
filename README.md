@@ -10,7 +10,7 @@ Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
 [![GitHub](https://img.shields.io/github/license/misterchangray/custom-tcp-filter.svg)](./LICENSE)
 
 ### 1.项目由来
-公司做物联网项目, 后台采用netty开发,端口暴露使之容易被扫描攻击。 故实现自定义TCP头, 这样可以在握手阶段就丢弃数据包.达到提高攻击门槛的目的。
+公司做物联网项目, 后端采用java+netty开发, 端口如果直接暴露使之容易被扫描攻击。 故实现自定义TCP头, 这样可以在握手阶段就丢弃数据包，达到提高攻击门槛的目的。
 此项目在一下系统中测试通过：
 
 1. Ubuntu 9.3.0-10ubuntu2 (2021年测试)
