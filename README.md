@@ -66,6 +66,7 @@ Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
 	- 使用 `sudo rmmod custom_tcp_filter` 命令进行卸载
 	- 安装完成后通过dmesg 查看启动日志, 如发现`Custom tcp filter init successed`类似日志即启动成功
 	- 内核应用可能导致系统蓝屏, 请注意系统版或修改后在使用。建议优先在测试环境测试完成后再应用到线上。
+	- 测试时可以指定端口,当只有一台机器安装插件后telnet命令不可用, 两台都安装后telnet命令正常。
 
 V1.0.1
 - 升级hook方式
