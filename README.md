@@ -32,7 +32,9 @@ Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
  - 搭建linux内核开发环境
  - 下载源码进入目录
    以下四个字节作为自定义表示头，可以修改为自己想要的：
+   
    `static unsigned char option_tm[LENGTH_OF_OPTION] = {0xAE, LENGTH_OF_OPTION, 0xF1, 0xF2};`
+   
  - 执行`./rebuild.sh`
 
 
@@ -51,7 +53,9 @@ Custom Tcp Header Options And When  Data Arrive  Netfilter Check It
 	3. 内网的网络安全
 
 ### 5. 其他
+
 	打包了两个现成插件，默认标识头为:` option_tm = {0xAE, 0x04, 0xF1, 0xF2};`，安装插件后所有tcp封包应该带有此标识才会流入应用层！
+
 
 	- 下载`custom_tcp_filter.ko`文件
 	- 使用 `sudo insmod custom_tcp_filter.ko` 命令进行安装
